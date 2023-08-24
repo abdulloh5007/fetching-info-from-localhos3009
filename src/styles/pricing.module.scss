@@ -1,0 +1,11 @@
+.price {
+  margin: 40px;
+  .cards{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  button:hover{
+    background-color: #e8e8e8 !important;
+  }
+}
