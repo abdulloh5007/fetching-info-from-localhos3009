@@ -1,6 +1,6 @@
 import { useUserContext } from '@/components/Context/context';
 import { useRouter } from 'next/router';
-import '../styles/profile.module.scss'
+// import '../styles/profile.module.scss'
 
 const ProfilePage = () => {
     const router = useRouter();
