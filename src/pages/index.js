@@ -12,7 +12,7 @@ export default function Home() {
           <title>Login Page</title>
         </Head>
         <main>
-          {/* <LoginForm /> */}
+          <LoginForm />
           <Price />
         </main>
       </Layout>
