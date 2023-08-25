@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useUserContext } from '../Context/context';
 
 const LoginForm = () => {
@@ -8,7 +7,7 @@ const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
-    const { setUserData } = useUserContext(); // Получение функции для обновления данных пользователя
+    const { userData, setUserData } = useUserContext(); // Получение функции для обновления данных пользователя
 
     const handleLogin = async () => {
         setLoading(true);
