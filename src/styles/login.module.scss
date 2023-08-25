@@ -1,0 +1,29 @@
+.loginContainer {
+    position: relative; /* Добавьте позиционирование */
+    width: 100%;
+    height: 100vh; /* Установите высоту контейнера, чтобы он занимал всю видимую область */
+    overflow: hidden;
+    height: auto;
+}
+
+.login {
+    position: relative; /* Оставьте позиционирование относительным */
+    z-index: 1; /* Значение z-index меньше, чтобы форма была над частицами */
+    background: white;
+    width: 340px;
+    height: 300px;
+    margin: 20% auto;
+    padding: 10px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+}
+.form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    button{
+        margin-top: 20px;
+    }
+}

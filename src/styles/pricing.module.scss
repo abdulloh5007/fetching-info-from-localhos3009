@@ -1,76 +1,75 @@
 .price {
-  margin: 20px;
-  .cards {
+    margin: 20px;
+    .cards {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-  .card {
-    transition: 0.4s ease all;
-    .cardDiv{
-      max-width: 330px;
-      padding: 20px;
-      color: white;
-      border-radius: 15px;
-      border: 1px solid #3e3e3e;
-      
     }
-  }
-  .card:hover{
-    transform: scale(1.03);
-  }
-  .description {
-    font-size: 14px;
-    line-height: 27px;
-    font-weight: 400;
-    letter-spacing: 1.3px;
-    margin-top: 10px;
-  }
-  .icon {
-    transition: 0.7s ease all;
-    font-size: 90px;
-    border-radius: 50%;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    background: linear-gradient(-45deg, #f403d1, #64b5f6);
-  }
-  .icon2 {
-    transition: 0.7s ease all;
-    font-size: 90px;
-    border-radius: 50%;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    transform: rotate(45deg);
-    background: linear-gradient(-45deg, #ffec61, #f321d7);
-  }
-  .icon3 {
-    transition: 0.7s ease all;
-    font-size: 90px;
-    border-radius: 50%;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    background: linear-gradient(-45deg, #24ff72, #9a4eff);
-  }
-  .icon:hover {
-    cursor: pointer;
-    transform: scale(1.2);
-  }
-  .icon2:hover {
-    cursor: pointer;
-    transform: scale(1.2) rotate(45deg);
-  }
-  .icon3:hover {
-    cursor: pointer;
-    transform: scale(1.2);
-  }
-  button {
-    transition: 0.4s ease all;
-  }
-  button:hover {
-    background-color: #ebebeb !important;
-  }
-  button:active {
-    transform: scale(0.96);
-  }
+    .card {
+        transition: 0.4s ease all;
+        .cardDiv {
+        max-width: 330px;
+        padding: 20px;
+        color: white;
+        border-radius: 15px;
+        border: 1px solid #3e3e3e;
+        }
+    }
+    .card:hover {
+        transform: scale(1.03);
+    }
+    .description {
+        font-size: 14px;
+        line-height: 27px;
+        font-weight: 400;
+        letter-spacing: 1.3px;
+        margin-top: 10px;
+    }
+    .icon {
+        transition: 0.7s ease all;
+        font-size: 90px;
+        border-radius: 50%;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        background: linear-gradient(-45deg, #f403d1, #64b5f6);
+    }
+    .icon2 {
+        transition: 0.7s ease all;
+        font-size: 90px;
+        border-radius: 50%;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        transform: rotate(45deg);
+        background: linear-gradient(-45deg, #ffec61, #f321d7);
+    }
+    .icon3 {
+        transition: 0.7s ease all;
+        font-size: 90px;
+        border-radius: 50%;
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        background: linear-gradient(-45deg, #24ff72, #9a4eff);
+    }
+    .icon:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+    .icon2:hover {
+        cursor: pointer;
+        transform: scale(1.2) rotate(45deg);
+    }
+    .icon3:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+    button {
+        transition: 0.4s ease all;
+    }
+    button:hover {
+        background-color: #ebebeb !important;
+    }
+    button:active {
+        transform: scale(0.96);
+    }
 }

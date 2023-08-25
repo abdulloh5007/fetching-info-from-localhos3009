@@ -1,5 +1,4 @@
 import LoginForm from "@/components/home/LoginForm"
-
 function login() {
     return (
         <div>
