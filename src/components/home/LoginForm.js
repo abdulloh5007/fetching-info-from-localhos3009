@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUserContext } from '../Context/context';
 import style from '../../styles/login.module.scss'
@@ -19,6 +19,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import LockIcon from '@mui/icons-material/Lock';
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+
 
 const LoginForm = () => {
     const [id, setId] = useState('');
@@ -27,6 +30,7 @@ const LoginForm = () => {
     const router = useRouter();
     const { userData, setUserData } = useUserContext(); // Получение функции для обновления данных пользователя
     const [showPassword, setShowPassword] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -34,10 +38,28 @@ const LoginForm = () => {
         event.preventDefault();
     };
 
+    useEffect(() => {
+        async function test (){
+            const savedLoginId = window.sessionStorage.getItem('loginId');
+            if (savedLoginId) {
+                const response = await fetch(`http://localhost:3009/api/data/${savedLoginId}`);
+                const data = await response.json();
+                if (data == null) {
+                    setErrorMessage('ID not found');
+                } else {
+                    setUserData(data); // Установка данных пользователя в контекст
+                    setId(savedLoginId);
+                    setRememberMe(true);
+                    router.push(`/auth/${savedLoginId}`);
+                }
+            }
+        }
+        test()
+    }, []);
+
     const handleLogin = async () => {
         setLoading(true);
         setErrorMessage('');
-        console.log(id);
         if (id != '') {
             try {
                 const response = await fetch(`http://localhost:3009/api/data/${id}`);
@@ -47,7 +69,10 @@ const LoginForm = () => {
                     setErrorMessage('ID not found');
                 } else {
                     setUserData(data); // Установка данных пользователя в контекст
-                    router.push(`/${id}`);
+                    if (rememberMe) {
+                        window.sessionStorage.setItem('loginId', data.id);
+                    }
+                    router.push(`/auth/${id}`);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -80,7 +105,7 @@ const LoginForm = () => {
                 options={{
                     background: {
                         color: {
-                            value: "#0d47a1",
+                            value: "#2596be",
                         },
                     },
                     fpsLimit: 120,
@@ -156,7 +181,7 @@ const LoginForm = () => {
                         }} id="input-with-sx" label="ID" variant="standard" />
                     </Box>
                     {/*  */}
-                    <Box sx={{ mt: '20px', display: 'flex', alignItems: 'center' }}>
+                    <Box sx={{ mt: '30px', display: 'flex', alignItems: 'center' }}>
                         <LockIcon sx={{ color: 'action.active', mr: 1, mt: 1.5 }} />
                         <FormControl sx={{ width: '25ch' }} variant="standard">
                             <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
@@ -182,13 +207,15 @@ const LoginForm = () => {
                         {errorMessage}
                     </Alert>}
 
-                    {/* {id == '' ?
-                        <Alert variant="outlined" sx={{ mt: '10px' }} severity="error">
-                            Fill the inputs
-                        </Alert>
-                        :
-                        ''
-                    } */}
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                            />
+                        }
+                        label="Запомнить меня"
+                    />
 
                     {loading ?
                         <CircularProgress sx={{ mt: '20px' }} />

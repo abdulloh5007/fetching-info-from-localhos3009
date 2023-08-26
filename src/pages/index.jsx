@@ -5,9 +5,8 @@ import Price from '@/components/home/Price';
 export default function Home() {
     return (
         <Layout>
-            
             <Head>
-                <title>Login Page</title>
+                <title>Seven B Indutries</title>
             </Head>
             <main>
                 <Price />

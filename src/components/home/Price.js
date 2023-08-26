@@ -6,9 +6,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { pricings } from '../../utils/price'
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Price() {
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const router = useRouter();
 
     let interval = null;
 
@@ -56,7 +58,7 @@ export default function Price() {
                                         <div dangerouslySetInnerHTML={{ __html: e.description }} className={style.description} />
                                     </CardContent>
                                     <CardActions sx={{ justifyContent: 'center' }}>
-                                        <Button sx={{ border: '1px solid #198BDF', background: 'white', p: 1.2 }} size="small">АКТИВИРОВАТЬ {e.stausEmoji}</Button>
+                                        <Button onClick={() => router.push('/login')} sx={{ border: '1px solid #198BDF', background: 'white', p: 1.2 }} size="small">АКТИВИРОВАТЬ {e.stausEmoji}</Button>
                                     </CardActions>
                                 </Card>
                             </div>
