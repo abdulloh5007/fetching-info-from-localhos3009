@@ -41,7 +41,8 @@ const ProfilePage = () => {
     const [isError, setIsError] = useState('');
     const [openBonus, setOpenBonus] = useState(false)
     const [bonusInfo, setBonusInfo] = useState('')
-
+    const [isLoadBonusInfo, setIsLoadBonusInfo] = useState(true)
+    
     useEffect(() => {
         if (!userData) {
             router.push('/login');
@@ -61,15 +62,15 @@ const ProfilePage = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
+    
     // get bonus
     const handleClickOpenBonus = async () => {
-
+        
         // Пример функции для генерации случайного типа бонуса (монеты или UC)
         function getRandomBonusType() {
             return Math.random() < 0.5 ? 'монеты' : 'UC';
         }
-
+        
         // Пример функции для генерации случайной суммы
         function getRandomAmount() {
             return Math.floor(Math.random() * (10000 - 10) + 10); // Пример суммы от 10 до 10000
@@ -89,8 +90,8 @@ const ProfilePage = () => {
         }
 
         setOpenBonus(true);
+        
         let bonusCooldown = 24 * 60 * 60 * 1000
-
         const lastBonusTime = userData.lastBonusTime || 0;
         const userStatusName = userData.status[0].statusName
         const currentTime = Date.now()
@@ -102,35 +103,46 @@ const ProfilePage = () => {
             bonusCooldown = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
         }
 
-
         if (currentTime - lastBonusTime >= bonusCooldown) {
-            const bonusAmount = getRandomAmount();
             const bonusType = getRandomBonusType();
+            const bonusAmount = getRandomAmount();
             const bonusUc = getRandomUc();
-            const bonusTypeFormatted = bonusType === 'UC' ? 'UC' : '$';
+            const bonusTypeFormatted = bonusType === 'UC' ? bonusUc : bonusAmount;
             const donateX2 = bonusType === 'UC' ? bonusUc * 2 : bonusAmount * 2;
+            let bonusTypeToPut = bonusType === 'UC' ? 'uc' : 'balance'
 
-            let bonusMessage = `Вы получили свой ежедневный бонус:\n${bonusAmount} ${bonusTypeFormatted}.`;
+            let bonusAmountToPut = bonusTypeFormatted
+
+            let bonusMessage = `Вы получили свой ежедневный бонус:\n${bonusType} ${bonusTypeFormatted}.`;
 
             if (userStatusName === 'vip') {
-                bonusMessage += `\n<b>${userStatusName.toUpperCase()} 💎</b> 2X = ${donateX2} ${bonusTypeFormatted}.`;
+                bonusMessage += `\n<b>${userStatusName.toUpperCase()} 💎</b> 2X = ${donateX2} ${bonusTypeToPut}.`;
+                bonusAmountToPut = donateX2
             } else if (userStatusName === 'premium') {
-                bonusMessage += `\n<b>${userStatusName.toUpperCase()} ⭐️</b> 2X = ${donateX2} ${bonusTypeFormatted}.`;
+                bonusMessage += `\n<b>${userStatusName.toUpperCase()} ⭐️</b> 2X = ${donateX2} ${bonusTypeToPut}.`;
+                bonusAmountToPut = donateX2
             }
 
-            // // Обновление информации о бонусе в базе данных
-            // try {
-            //     await fetch(`http://localhost:3009/api/updateBonus/${userData.id}`, {
-            //         method: 'PUT',
-            //         headers: {
-            //             'Content-Type': 'application/json'
-            //         },
-            //         body: JSON.stringify({ bonusType, bonusAmount })
-            //     });
-            // } catch (error) {
-            //     console.error('Error updating bonus:', error);
-            // }
-            console.log(bonusMessage);
+            // Обновление информации о бонусе в базе данных
+            try {
+                const response = await fetch(`http://localhost:3009/api/updateBonus/${userData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ bonusCooldown: currentTime, bonusAmount: bonusAmountToPut, bonusTypeToPut: bonusTypeToPut })
+                });
+                if (response.ok) {
+                    setBonusInfo(bonusMessage)
+                    setIsLoadBonusInfo(false)
+                }
+                else {
+                    console.log('Ошибка при обновлении информации о бонусе');
+                    setBonusInfo('Ошибка при обновлении информации о бонусе')
+                }
+            } catch (error) {
+                console.error('Error updating bonus:', error);
+            }
             setBonusInfo(bonusMessage);
             setOpenBonus(true);
         } else {
@@ -138,11 +150,16 @@ const ProfilePage = () => {
             const errorMessage = `Вы уже получили бонус. Вы сможете получить следующий бонус через ${remainingTime}.`;
             setBonusInfo(errorMessage);
             setOpenBonus(true);
+            setIsLoadBonusInfo(false)
         }
     };
 
     const handleCloseBonus = () => {
         setOpenBonus(false);
+        const lastBonusTime = userData.lastBonusTime || 0;
+        if(lastBonusTime === 0){
+            router.push('/login')
+        }
     };
 
     const handleUpdateNick = async () => {
@@ -232,8 +249,7 @@ const ProfilePage = () => {
                             </DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-description">
-                                    Let Google help apps determine location. This means sending anonymous
-                                    location data to Google, even when no apps are running.
+                                    {isLoadBonusInfo === false ? bonusInfo : <b><Skeleton animation="wave" /></b>}
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
