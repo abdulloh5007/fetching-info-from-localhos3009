@@ -39,7 +39,7 @@ const LoginForm = () => {
     };
 
     useEffect(() => {
-        async function test (){
+        async function test() {
             const savedLoginId = window.sessionStorage.getItem('loginId');
             if (savedLoginId) {
                 const response = await fetch(`http://localhost:3009/api/data/${savedLoginId}`);
@@ -105,7 +105,7 @@ const LoginForm = () => {
                 options={{
                     background: {
                         color: {
-                            value: "#2596be",
+                            value: "#A1A1A1",
                         },
                     },
                     fpsLimit: 120,
@@ -117,17 +117,19 @@ const LoginForm = () => {
                             },
                             onHover: {
                                 enable: true,
-                                mode: "repulse",
+                                mode: "bubble",
                             },
                             resize: true,
                         },
                         modes: {
                             push: {
-                                quantity: 4,
+                                quantity: 3,
                             },
-                            repulse: {
+                            bubble: {
                                 distance: 200,
-                                duration: 0.4,
+                                duration: 2,
+                                opacity: 0.4,
+                                size: 30,
                             },
                         },
                     },
@@ -136,11 +138,11 @@ const LoginForm = () => {
                             value: "#ffffff",
                         },
                         links: {
-                            color: "#ffffff",
+                            color: "#C6C6C6",
                             distance: 150,
                             enable: true,
-                            opacity: 0.5,
-                            width: 1,
+                            opacity: 0.3,
+                            width: 2,
                         },
                         move: {
                             direction: "none",
@@ -157,13 +159,13 @@ const LoginForm = () => {
                                 enable: true,
                                 area: 800,
                             },
-                            value: 80,
+                            value: 100,
                         },
                         opacity: {
                             value: 0.5,
                         },
                         shape: {
-                            type: "square",
+                            type: "circle",
                         },
                         size: {
                             value: { min: 2, max: 5 },
